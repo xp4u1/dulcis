@@ -29,6 +29,11 @@
     chalk "^2.4.2"
     js-tokens "^4.0.0"
 
+"@fontsource/inter@^5.0.15":
+  version "5.0.15"
+  resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-5.0.15.tgz#c01d160cd02bde1a4ce09f2c38b2063b66caf870"
+  integrity sha512-/IoWYEXl8lqJEx50JqNPT+bI4VNwxb/bg2oOfvG8PiEsDsmHRFvWBVHlohBNn1+QdBf+KbAjU/gb4vlGOSsVWw==
+
 "@headlessui/react@^1.7.17":
   version "1.7.17"
   resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.7.17.tgz#a0ec23af21b527c030967245fd99776aa7352bc6"
@@ -1454,6 +1459,11 @@ fill-range@^7.0.1:
   integrity sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==
   dependencies:
     to-regex-range "^5.0.1"
+
+fontawesome-6-pro@^6.4.0:
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/fontawesome-6-pro/-/fontawesome-6-pro-6.4.0.tgz#084f551ade5ee39bffae4e68d0a780fbcbffce39"
+  integrity sha512-Kf9s7UVGFR5B/3PDEJwC5v0eb8F++C6a0QEpk3qXL25Nn408WSq5nJ+VZQJC2LOhUmdT3BV0io54beuzWmgchg==
 
 fraction.js@^4.3.6:
   version "4.3.7"
