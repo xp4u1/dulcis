@@ -1,4 +1,4 @@
-import { OrderPage } from "./pages/OrderPage";
+import OrderPage from "./pages/OrderPage";
 
 export function App() {
   return <OrderPage></OrderPage>;
