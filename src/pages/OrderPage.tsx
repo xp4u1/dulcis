@@ -3,6 +3,7 @@ import FoodCard from "@/components/FoodCard";
 
 import { foods, coffeeTypes, teaTypes, getFoodById } from "@/data/Foods";
 import ReceiptModal from "@/components/ReceiptModal";
+import { supabaseClient } from "@/data/Supabase";
 
 export default function OrderPage() {
   // Selection
@@ -28,13 +29,15 @@ export default function OrderPage() {
     );
   };
 
-  const order = () => {
-    console.debug({
-      name: name,
-      room: room,
-      items: selectedItems,
-      coffeeType: selectedCoffee,
-      teaType: selectedTea,
+  const order = async () => {
+    await supabaseClient.from("orders").insert({
+      data: JSON.stringify({
+        name: name,
+        room: room,
+        items: selectedItems,
+        coffeeType: selectedCoffee,
+        teaType: selectedTea,
+      }),
     });
     setReceiptModal(false);
   };
