@@ -34,17 +34,17 @@ export const foods: Food[] = [
 
 export const coffeeTypes: Food[] = [
   {
-    id: "Kaffee Schwarz",
+    id: "Kaffee (Schwarz)",
     title: "Schwarz",
     icon: "coffee-beans",
   },
   {
-    id: "Kaffee mit Milch",
+    id: "Kaffee (Milch)",
     title: "Milch",
     icon: "cow",
   },
   {
-    id: "Kaffee mit Hafermilch",
+    id: "Kaffee (Hafermilch)",
     title: "Hafermilch",
     icon: "wheat",
   },

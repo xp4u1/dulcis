@@ -1,28 +1,53 @@
-import OrderCard from "@/components/OrderCard";
-import { supabaseClient } from "@/data/Supabase";
 import { useEffect, useState } from "react";
 
+import OrderCard from "@/components/OrderCard";
+import { supabaseClient } from "@/data/Supabase";
+
 export default function AdminPage() {
-  const [orderCards, setOrderCards] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   const fetchOrders = async () => {
     const { data, error } = await supabaseClient.from("orders").select();
 
     if (error) {
-      console.error("[Supabase] Cannot fetch data!");
+      console.error("[Supabase] Cannot fetch data");
       console.debug(error);
     }
 
-    setOrderCards(
-      data.map((row) => (
-        <OrderCard
-          key={row["id"]}
-          order={JSON.parse(row["data"])}
-          delivered={row["delivered"]}
-        />
-      ))
-    );
+    console.debug(data);
+
+    setOrders(data);
   };
+
+  const toggleStatus = async (id: string, status: boolean) => {
+    const { error } = await supabaseClient
+      .from("orders")
+      .update({
+        delivered: !status,
+      })
+      .eq("id", id);
+
+    if (!error) return;
+
+    console.error("[Supabase] Cannot update order " + id);
+    console.debug(error);
+  };
+
+  const orderToCard = (order: any) => (
+    <OrderCard
+      key={order["id"]}
+      order={JSON.parse(order["data"])}
+      timestamp={new Date(Date.parse(order["created_at"])).toLocaleTimeString(
+        "de-DE",
+        {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }
+      )}
+      onClick={() => toggleStatus(order["id"], order["delivered"])}
+    />
+  );
 
   useEffect(() => {
     fetchOrders();
@@ -37,7 +62,7 @@ export default function AdminPage() {
         schema: "public",
         table: "orders",
       },
-      (payload) => {
+      () => {
         fetchOrders();
       }
     )
@@ -57,7 +82,15 @@ export default function AdminPage() {
         </p>
       </header>
 
-      <div className="mt-10 flex flex-wrap gap-4">{orderCards}</div>
+      <h3 className="mt-10 text-xl">Ausstehend</h3>
+      <div className="mt-5 flex flex-wrap gap-4">
+        {orders.filter((row) => !row["delivered"]).map(orderToCard)}
+      </div>
+
+      <h3 className="mt-10 text-xl">Fertig</h3>
+      <div className="mt-5 flex flex-wrap gap-4">
+        {orders.filter((row) => row["delivered"]).map(orderToCard)}
+      </div>
     </div>
   );
 }
