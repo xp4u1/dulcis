@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 
 import OrderCard from "@/components/OrderCard";
 import { supabaseClient } from "@/data/Supabase";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminPage() {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
 
   const fetchOrders = async () => {
@@ -11,10 +13,8 @@ export default function AdminPage() {
 
     if (error) {
       console.error("[Supabase] Cannot fetch data");
-      console.debug(error);
+      navigate("/error");
     }
-
-    console.debug(data);
 
     setOrders(data);
   };
@@ -30,7 +30,7 @@ export default function AdminPage() {
     if (!error) return;
 
     console.error("[Supabase] Cannot update order " + id);
-    console.debug(error);
+    navigate("/error");
   };
 
   const orderToCard = (order: any) => (
@@ -75,10 +75,9 @@ export default function AdminPage() {
           Übersicht
         </h1>
         <p className="mt-2 text-md text-gray-500">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore quam
-          blanditiis voluptates exercitationem iste dolor ratione quia autem et
-          culpa architecto cum iure, vel mollitia qui perspiciatis! Nemo,
-          itaque. Necessitatibus?
+          Hier werden alle Bestellungen aufgelistet. Die Liste aktualisiert sich
+          automatisch, solange man die Seite geöffnet hat. Mit einem Klick auf
+          die Bestellung lässt sich ihr Status ändern.
         </p>
       </header>
 

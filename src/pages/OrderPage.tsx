@@ -1,11 +1,14 @@
 import { useState } from "react";
-import FoodCard from "@/components/FoodCard";
+import { useNavigate } from "react-router-dom";
 
+import FoodCard from "@/components/FoodCard";
 import { foods, coffeeTypes, teaTypes, getFoodById } from "@/data/Foods";
 import ReceiptModal from "@/components/ReceiptModal";
 import { supabaseClient } from "@/data/Supabase";
 
 export default function OrderPage() {
+  const navigate = useNavigate();
+
   // Selection
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedCoffee, setSelectedCoffee] = useState("");
@@ -30,7 +33,7 @@ export default function OrderPage() {
   };
 
   const order = async () => {
-    await supabaseClient.from("orders").insert({
+    const { error } = await supabaseClient.from("orders").insert({
       data: JSON.stringify({
         name: name,
         room: room,
@@ -39,7 +42,15 @@ export default function OrderPage() {
         teaType: selectedTea,
       }),
     });
+
     setReceiptModal(false);
+
+    if (error) {
+      console.error("[Supabase] Cannot insert into database");
+      navigate("/error");
+    } else {
+      navigate("/success");
+    }
   };
 
   return (
@@ -61,12 +72,6 @@ export default function OrderPage() {
         <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
           Bestellung
         </h1>
-        <p className="mt-2 text-md text-gray-500">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore quam
-          blanditiis voluptates exercitationem iste dolor ratione quia autem et
-          culpa architecto cum iure, vel mollitia qui perspiciatis! Nemo,
-          itaque. Necessitatibus?
-        </p>
       </header>
 
       <div id="productGrid" className="mt-10 flex flex-wrap gap-4">
@@ -142,7 +147,7 @@ export default function OrderPage() {
 
       <div className="pt-20 flex justify-end">
         <button
-          className="icon-before icon-coffee px-6 py-3 rounded-md bg-teal-600 text-white font-semibold"
+          className="icon-before icon-coffee px-6 py-3 rounded-md bg-teal-600 hover:bg-teal-500 text-white font-semibold"
           onClick={() => setReceiptModal(true)}
         >
           Bestellen
